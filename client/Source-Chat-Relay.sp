@@ -628,6 +628,7 @@ public void OnClientConnected(int iClient)
 		return;
 	
 	if (IsFakeClient(iClient))
+		return;
 
 	char sName[MAX_NAME_LENGTH];
 
