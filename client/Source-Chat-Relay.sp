@@ -626,6 +626,8 @@ public void OnClientConnected(int iClient)
 {
 	if (!g_cPlayerEvent.BoolValue)
 		return;
+	
+	if (IsFakeClient(iClient))
 
 	char sName[MAX_NAME_LENGTH];
 
@@ -642,6 +644,9 @@ public void OnClientDisconnect(int iClient)
 	if (!g_cPlayerEvent.BoolValue)
 		return;
 
+	if (IsFakeClient(iClient))
+		return;
+		
 	char sName[MAX_NAME_LENGTH];
 
 	if (!GetClientName(iClient, sName, sizeof sName))
