@@ -340,6 +340,8 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 
 public void OnPluginStart()
 {
+	LoadTranslations("source-chat-relay.phrases");
+	
 	CreateConVar("rf_scr_version", PLUGIN_VERSION, "Source Chat Relay Version", FCVAR_REPLICATED | FCVAR_SPONLY | FCVAR_DONTRECORD | FCVAR_NOTIFY);
 
 	g_cHost = CreateConVar("rf_scr_host", "127.0.0.1", "Relay Server Host", FCVAR_PROTECTED);
@@ -560,11 +562,20 @@ public void HandlePackets(const char[] sBuffer, int iSize)
 			PrintToConsoleAll("sMessage: %s", sMessage);
 			PrintToConsoleAll("====== Chat Message Packet =====");
 			#endif
-
 			if (SupportsHexColor(g_evEngine))
-				CPrintToChatAll("{gold}[%s] {azure}%s{white}: {grey}%s", sEntity, sName, sMessage);
+				if (g_evEngine==Engine_Left4Dead2)
+				{
+					char rawmsg[MAX_COMMAND_LENGTH];
+					Format(rawmsg, sizeof(rawmsg), "%t", "SupportsHexColorMessageChat", sEntity, sName, sMessage);
+					CPrintToChatAll("%s",rawmsg);
+					//CPrintToChatAll("{green}[%s] {cyan}%s{orange}: {white}%s", sEntity, sName, sMessage);
+				}
+				else
+					CPrintToChatAll("{gold}[%s] {azure}%s{white}: {grey}%s", sEntity, sName, sMessage);
 			else
+			{
 				CPrintToChatAll("\x10[%s] \x0C%s\x01: \x08%s", sEntity, sName, sMessage);
+			}
 		}
 		case MessageEvent:
 		{
@@ -590,7 +601,15 @@ public void HandlePackets(const char[] sBuffer, int iSize)
 				return;
 			
 			if (SupportsHexColor(g_evEngine))
-				CPrintToChatAll("{gold}[%s]{white}: {grey}%s", sEvent, sData);
+				if (g_evEngine==Engine_Left4Dead2)
+				{
+					char rawmsg[MAX_COMMAND_LENGTH];
+					Format(rawmsg, sizeof(rawmsg), "%t", "SupportsHexColorMessageEvent", sEvent, sData);
+					CPrintToChatAll("%s",rawmsg);
+					//CPrintToChatAll("{green}[%s]{cyan}: {white}%s", sEvent, sData);
+				}
+				else
+					CPrintToChatAll("{gold}[%s]{white}: {grey}%s", sEvent, sData);
 			else
 				CPrintToChatAll("\x10[%s]\x01: \x08%s", sEvent, sData);
 		}
