@@ -1,0 +1,14 @@
+"Phrases"
+{
+	"SupportsHexColorMessageEvent"
+	{
+		"#format"		"{1:s},{2:s}"
+		"en"			"{orange}[{1}]{orange}: {default}{2}"
+	}
+	"SupportsHexColorMessageChat"
+	{
+		"#format"		"{1:s},{2:s},{3:s}"
+		"en"			"{LIGHTGREEN}[{1}] {orange}{2}{orange}: {default}{3}"
+	}
+
+}
